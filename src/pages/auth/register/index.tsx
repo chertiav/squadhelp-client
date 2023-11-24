@@ -29,6 +29,7 @@ const RegisterPage: React.FC<IPropsRegister> = (
 		setPassword,
 		setConfirmPassword,
 		setRole,
+		navigate,
 	} = props;
 
 	return (
@@ -150,13 +151,19 @@ const RegisterPage: React.FC<IPropsRegister> = (
 			</FormControl>
 			<Button
 				type="submit"
-				sx={{ fontFamily: 'Poppins', marginTop: 2 }}
+				sx={{ fontFamily: 'Poppins', marginTop: 2, marginBottom: 2 }}
 				fullWidth={true}
 				size={'large'}
 				variant="contained"
 			>
 				Create Account
 			</Button>
+			<Typography variant="body2" sx={{ fontFamily: 'Poppins' }}>
+				Do you have an account?
+				<span className="incitingText" onClick={() => navigate('/login')}>
+					Sign in
+				</span>
+			</Typography>
 		</>
 	);
 };

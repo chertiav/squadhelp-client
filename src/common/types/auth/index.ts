@@ -1,7 +1,7 @@
 export interface IPropsLogin {
 	setEmail: (value: string) => void;
 	setPassword: (value: string) => void;
-	// navigate: (to: string) => void;
+	navigate: (to: string) => void;
 }
 
 export interface IPropsRegister {
@@ -12,7 +12,7 @@ export interface IPropsRegister {
 	setPassword: (value: string) => void;
 	setConfirmPassword: (value: string) => void;
 	setRole: (value: string) => void;
-	// navigate: (to: string) => void;
+	navigate: (to: string) => void;
 }
 
 export interface IAuthState {
