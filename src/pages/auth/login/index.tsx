@@ -7,7 +7,7 @@ import { NAME_APP } from '../../../constants';
 
 const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
 	useTitle(`${NAME_APP}: Login`);
-	const { setEmail, setPassword } = props;
+	const { setEmail, setPassword, navigate } = props;
 
 	return (
 		<>
@@ -39,13 +39,19 @@ const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
 			/>
 			<Button
 				type="submit"
-				sx={{ fontFamily: 'Poppins', marginTop: 2 }}
+				sx={{ fontFamily: 'Poppins', marginTop: 2, marginBottom: 2 }}
 				fullWidth={true}
 				size={'large'}
 				variant="contained"
 			>
 				LOGIN
 			</Button>
+			<Typography variant="body2" sx={{ fontFamily: 'Poppins' }}>
+				Don't have an account?
+				<span className="incitingText" onClick={() => navigate('/register')}>
+					Sign up
+				</span>
+			</Typography>
 		</>
 	);
 };

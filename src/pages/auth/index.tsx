@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Box } from '@mui/material';
 //======================================================
 import './style.scss';
 import instance from '../../utils/axios';
 import LoginPage from './login';
 import RegisterPage from './register';
-import Logo from '../../components/UI/logo';
+import Logo from '../../components/logo';
 import { CUSTOMER } from '../../constants';
 import { useAppDispatch } from '../../utils/hook';
 import { login } from '../../store/slice/auth';
 import { AppErrors } from '../../common/errors';
+import ThemeSwitcherComponent from '../../components/them-switcher';
+import { showAuthError } from '../../utils/errors';
+import { toast } from 'react-toastify';
 
 const AuthRootComponent: React.FC = (): JSX.Element => {
 	const [firstName, setFirstName] = useState('');
@@ -56,10 +59,10 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
 				const { data } = await instance.post('auth/login', userData);
 				dispath(login(data.accessToken));
 				clearField();
+				toast.success(data.message);
 				navigate('/');
 			} catch (e) {
-				console.log(e);
-				return (e as Error).message;
+				showAuthError(e);
 			}
 		} else {
 			if (password === confirmPassword) {
@@ -75,13 +78,13 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
 					const { data } = await instance.post('auth/register', userData);
 					dispath(login(data.accessToken));
 					clearField();
+					toast.success(data.message);
 					navigate('/');
 				} catch (e) {
-					console.log(e);
-					return (e as Error).message;
+					showAuthError(e);
 				}
 			} else {
-				throw new Error(AppErrors.passwordDoNotMatch);
+				toast.warning(AppErrors.passwordDoNotMatch);
 			}
 		}
 	};
@@ -96,15 +99,12 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
 					maxWidth={1200}
 					margin={'auto'}
 					marginTop={3}
-					padding={5}
+					marginBottom={2}
+					paddingLeft={5}
+					paddingRight={5}
 				>
 					<Logo />
-					<Button variant="outlined">
-						{checkAuthLocation(
-							<Link to="/register">Signup</Link>,
-							<Link to="/login">Login</Link>,
-						)}
-					</Button>
+					<ThemeSwitcherComponent />
 				</Box>
 			</div>
 			<form className="form" onSubmit={handleSubmit}>
@@ -120,7 +120,11 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
 					boxShadow={'1px 1px 5px #ccc'}
 				>
 					{checkAuthLocation(
-						<LoginPage setEmail={setEmail} setPassword={setPassword} />,
+						<LoginPage
+							setEmail={setEmail}
+							setPassword={setPassword}
+							navigate={navigate}
+						/>,
 						<RegisterPage
 							setFirstName={setFirstName}
 							setLastName={setLastName}
@@ -129,6 +133,7 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
 							setPassword={setPassword}
 							setConfirmPassword={setConfirmPassword}
 							setRole={setRole}
+							navigate={navigate}
 						/>,
 					)}
 				</Box>

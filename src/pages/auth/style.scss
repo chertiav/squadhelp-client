@@ -6,10 +6,18 @@
 	width: 100vw;
 	height: 100vh;
 	background-color: #0f2e60;
-}
-.header {
-	width: 100%;
-}
-.form {
-	flex: 1,
+
+	.header {
+		width: 100%;
+	}
+
+	.form {
+		flex: 1,
+	}
+
+	.incitingText{
+		margin-left: 10px;
+		cursor: pointer;
+	}
+
 }
